@@ -55,7 +55,7 @@ public class CiudadDAO {
 		}
 	}
 	
-	//Selección simple
+	//Selección simple por el id
 	public Ciudad selectCiudadById(int codigo) {
 		Transaction transaction = null;
 		Ciudad c = null;
@@ -67,7 +67,7 @@ public class CiudadDAO {
 			if (transaction!=null) {
 				transaction.rollback();
 			}
-			System.out.println("Error al seleccionar los datos de una ciudad");
+			System.out.println("Error al seleccionar los datos de una ciudad por el id");
 		}
 		return c;
 	}
