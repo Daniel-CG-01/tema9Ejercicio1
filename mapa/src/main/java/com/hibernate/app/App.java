@@ -140,7 +140,13 @@ static void menu() {
 			System.out.print("¿De qué ciudad quieres ver el número de habitantes? Introduce su nombre: ");
 			nombre=entrada.next();
 			
+			Ciudad ciudadNombre=ciudadDAO.selectCiudadByNombre(nombre);
 			
+			if (ciudadNombre!=null) {
+				System.out.println(ciudadNombre.getNombre()+" tiene "+ciudadNombre.getNumeroHabitantes()+" habitantes");
+			} else {
+				System.out.println("No existe ninguna ciudad que se llame "+nombre);
+			}
 			
 			break;
 		case 10:

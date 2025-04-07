@@ -4,6 +4,7 @@ import java.util.List;
 import org.hibernate.Session;
 import com.hibernate.model.Ciudad;
 import com.hibernate.util.HibernateUtil;
+import org.hibernate.query.Query;
 import org.hibernate.Transaction;
 
 public class CiudadDAO {
@@ -62,6 +63,25 @@ public class CiudadDAO {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
 			c = session.get(Ciudad.class, codigo);
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction!=null) {
+				transaction.rollback();
+			}
+			System.out.println("Error al seleccionar los datos de una ciudad por el id");
+		}
+		return c;
+	}
+	
+	//Selección simple por el nombre
+	public Ciudad selectCiudadByNombre(String nombre) {
+		Transaction transaction = null;
+		Ciudad c = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			Query<Ciudad> query = session.createQuery("FROM Ciudad WHERE nombre = :nombreParam", Ciudad.class);
+			query.setParameter("nombreParam", nombre);
+			c = query.uniqueResult();
 			transaction.commit();
 		} catch (Exception e) {
 			if (transaction!=null) {
